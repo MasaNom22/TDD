@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         // factory(App\Blog::class, 15)->create();
         factory(App\User::class, 15)->create()->each(function ($user) {
-            factory(App\Blog::class, random_int(2, 5))->create(['user_id' => $user]);
+            factory(App\Blog::class, random_int(2, 5))->create(['user_id' => $user])->each(function ($blog) {
+                factory(App\Comment::class, random_int(1, 3))->create(['blog_id' => $blog]);
+            });
         });
     }
 }
