@@ -11,5 +11,9 @@ $factory->define(Blog::class, function (Faker $faker) {
         'user_id' => factory(User::class),
         'title' => $this->faker->realText(20),
         'body' => $this->faker->realText(100),
+        'status' => Blog::OPEN,
     ];
 });
+
+
+
