@@ -15,5 +15,13 @@ $factory->define(Blog::class, function (Faker $faker) {
     ];
 });
 
+// $factory->state(Blog::class, 'seeding', [
+//     'status' => $this->faker->biasedNumberBetween(0,1, ['\Faker\Provider\Biased', 'linearHigh'])
+// ]);
+
+//ステータスがCLOSED ->status('closed')で使用可能
+$factory->state(Blog::class, 'closed', [
+    'status' => Blog::CLOSED,
+]);
 
 

@@ -23,14 +23,10 @@ class BlogViewControllerTest extends TestCase
                 ->assertOK()
                 ->assertSee($blog->title)
                 ->assertSee($blog->user->name);
-
-        //factory(Blog::class)->create(['title' => 'あいうえお']);
-
     }
 
     function testブログのトップページを開ける2()
-    {
-        
+    {    
         // $this->withoutExceptionHandling();
         factory(Blog::class)->create(['title' => 'あいうえお']);
         $response = $this->get('/');
@@ -44,8 +40,7 @@ class BlogViewControllerTest extends TestCase
 
     function test非公開のものは表示されない()
     {
-        $blog = factory(Blog::class)->create([
-            'status' => 'Blog::CLOSED',
+        $blog = factory(Blog::class)->state('closed')->create([
             'title' => 'あいうえお']);
         $blog1 = factory(Blog::class)->create(['title' => 'ブログB']);
         $response = $this->get('/');
@@ -55,19 +50,24 @@ class BlogViewControllerTest extends TestCase
                 ->assertDontSee('あいうえお')
                 ->assertSee('ブログB');
     }
-    /**@test scopeOnlyOpen */
-    function ブログの公開非公開のスコープ ()
-    {
-        $blog = factory(Blog::class)->create([
-            'status' => 'Blog::CLOSED',
-            'title' => 'あいうえお']);
-        $blog1 = factory(Blog::class)->create(['title' => 'ブログB']);
-        
-        $blogs = Blog::onlyOpen()->get();
-        
-        $this->assertFalse($blogs->contains($blog));
-        $this->assertTrue($blogs->contains($blog1));
 
+    /** @test show */
+    function testブログの詳細画面を表示()
+    {       
+        $blog = factory(Blog::class)->create();
+        $response = $this->get(route('blog.show', ['blog' => $blog]))
+                ->assertOK()
+                ->assertSee($blog->title)
+                ->assertSee($blog->user->name);
+    }
+
+    /** @test show */
+    function test非公開のブログの詳細画面は表示されない()
+    {   
+        $blog = factory(Blog::class)->state('closed')->create();
+        $response = $this->get(route('blog.show', ['blog' => $blog]));
+
+        $response->assertForbidden();
     }
     
     

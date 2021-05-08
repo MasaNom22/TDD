@@ -22,4 +22,10 @@ class Blog extends Model
     {
         return $query->where('status', self::OPEN);
     }
+
+    //statusがclosedの時
+    public function isClosed ()
+    {
+        return $this->status == self::CLOSED;
+    }
 }
