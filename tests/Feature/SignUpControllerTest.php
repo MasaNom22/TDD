@@ -20,15 +20,26 @@ class SignUpControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
+    //上書きできる
+    private function validData($overrides =[])
+    {
+        return array_merge([
+            'name' => '太郎',
+            'email' => 'aaa@bbb.net',
+            'password' => 'abcd1234',
+        ], $overrides);
+    }
+
     /** @test store */
     function ユーザー登録できる() 
     {
         $this->withoutExceptionHandling();
-        $validData = [
-            'name' => '太郎',
-            'email' => 'aaa@bbb.net',
-            'password' => 'abcd1234',
-        ];
+        // $validData = [
+        //     'name' => '太郎',
+        //     'email' => 'aaa@bbb.net',
+        //     'password' => 'abcd1234',
+        // ];
+        $validData = $this->validData();
 
         $this->post(route('signup.post', $validData))
             ->assertOK();
