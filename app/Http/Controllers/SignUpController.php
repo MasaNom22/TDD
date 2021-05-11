@@ -19,15 +19,15 @@ class SignUpController extends Controller
             'email' => ['required', 'email:filter'],
             'password' => ['required','min:4'],
         ]);
-        User::create([
+        $user = User::create([
             'name' =>$request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ]);
         
-        // auth()->login($user);
+        auth()->login($user);
 
-        // return redirect('mypage/blogs');
+        return redirect('mypage/blogs');
         
     }
 }

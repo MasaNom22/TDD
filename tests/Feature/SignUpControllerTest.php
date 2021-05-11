@@ -42,7 +42,7 @@ class SignUpControllerTest extends TestCase
         $validData = $this->validData();
 
         $this->post(route('signup.post', $validData))
-            ->assertOK();
+            ->assertRedirect('mypage/blogs');
 
         unset($validData['password']);
         $this->assertDatabaseHas('users', $validData);
@@ -52,6 +52,8 @@ class SignUpControllerTest extends TestCase
         $this->assertnotNull($user);
 
         $this->assertTrue(\Hash::check('abcd1234', $user->password));
+
+        $this->assertAuthenticatedAs($user);
     }
     /** @test store */
     function 不正なデータでは登録できない () 
