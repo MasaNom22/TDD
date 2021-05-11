@@ -53,4 +53,27 @@ class SignUpControllerTest extends TestCase
 
         $this->assertTrue(\Hash::check('abcd1234', $user->password));
     }
+    /** @test store */
+    function 不正なデータでは登録できない () 
+    {
+        // $this->withoutExceptionHandling();
+        $url = 'signup';
+
+        // $this->get('signup');
+
+        $this->from('signup')->post($url, [])
+            ->assertRedirect('signup');
+
+            $this->post($url, ['name' => ''])->assertSessionHasErrors('name');
+            $this->post($url, ['name' => str_repeat('あ', 21)])->assertSessionHasErrors('name');
+            $this->post($url, ['name' => str_repeat('あ', 20)])->assertSessionDoesntHaveErrors('name');
+            $this->post($url, ['email' => ''])->assertSessionHasErrors('email');
+            $this->post($url, ['email' => 'aa@bb@cc'])->assertSessionHasErrors('email');
+            $this->post($url, ['email' => 'aa@ああ.いい'])->assertSessionHasErrors('email');
+
+            
+            $this->post($url, ['password' => ''])->assertSessionHasErrors('password');
+            $this->post($url, ['password' => 'abc'])->assertSessionHasErrors('password');
+            $this->post($url, ['password' => 'abcd'])->assertSessionDoesntHaveErrors('password');
+    }
 }
