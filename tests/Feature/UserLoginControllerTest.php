@@ -34,4 +34,14 @@ class UserLoginControllerTest extends TestCase
         
     //     $response->assertStatus(200);
     // }
+
+    public function testログアウトできる()
+    {
+        $this->login();
+        $this->post('mypage/logout')
+        ->assertRedirect($url = 'mypage/login');
+        $this->get($url)
+        ->assertSee('ログアウトしました');
+        $this->assertGuest();
+    }
 }
