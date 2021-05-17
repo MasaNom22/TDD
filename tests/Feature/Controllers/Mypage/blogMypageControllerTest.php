@@ -18,6 +18,8 @@ class blogMypageControllerTest extends TestCase
         $url = 'mypage/login';
         $this->get('mypage/blogs')
             ->assertRedirect($url);
+        $this->get('mypage/blogs/create')
+            ->assertRedirect($url);
         
     }
 
@@ -37,5 +39,12 @@ class blogMypageControllerTest extends TestCase
             ->assertOk()
             ->assertDontSee($otherblog->title)
             ->assertSee($myblog->title);
+    }
+
+    function testブログの新規登録 ()
+    {
+        $this->login();
+        $this->get('mypage/blogs/create')
+        ->assertOK();
     }
 }
