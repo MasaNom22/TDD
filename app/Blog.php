@@ -8,6 +8,8 @@ class Blog extends Model
 {
     const OPEN = 1;
     const CLOSED = 0;
+
+    protected $guard = [];
     public function user ()
     {
         return $this->belongsTo(User::class);
@@ -27,5 +29,16 @@ class Blog extends Model
     public function isClosed ()
     {
         return $this->status == self::CLOSED;
+    }
+
+    public function validData($overrides = [])
+    {
+        $validData = [
+            'title' => 'ブログのタイトル',
+            'body' => 'ブログの本文',
+            'status' => '1',
+        ];
+
+        return array_merge($validData, $overrides);
     }
 }
