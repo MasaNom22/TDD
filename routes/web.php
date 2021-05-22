@@ -10,5 +10,7 @@ Route::post('mypage/login','Mypage\UserLoginController@login');
 Route::middleware('auth')->group(function () {
   Route::get('mypage/blogs', 'Mypage\BlogMypageController@index');
   Route::get('mypage/blogs/create', 'Mypage\BlogMypageController@create');
+  Route::get('mypage/blogs/edit/{blog}', 'Mypage\BlogMypageController@edit');
+  Route::post('mypage/blogs/create', 'Mypage\BlogMypageController@store');
   Route::post('mypage/logout', 'Mypage\UserLoginController@logout');
 });
